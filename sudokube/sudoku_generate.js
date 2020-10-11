@@ -126,10 +126,19 @@ while(!generated){
 	generated = true;
 }
 
+console.log("generated the following grids!")
+console.log("top")
 console.log(topGrid)
+console.log("back")
 console.log(backGrid)
+console.log("front")
 console.log(frontGrid)
+console.log("bot")
 console.log(botGrid)
+console.log("left")
+console.log(leftGrid)
+console.log("right")
+console.log(rightGrid)
 
 
 init();

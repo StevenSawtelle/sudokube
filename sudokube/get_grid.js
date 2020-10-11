@@ -673,11 +673,7 @@ var noConflicts = function (baseObj, compObj) {
 
 
 var no3x3Errors = function (a1, a2, b1, b2) {
-    let x = (a1 != b1 && a1 != b2 && a2 != b1 && a2 != b2);
-    if(x){
-        console.log(a1,a2,b1,b2)
-    }
-    return x;
+    return (a1 != b1 && a1 != b2 && a2 != b1 && a2 != b2);
 }
 
 var swapItoA = function  (baseObj) {
