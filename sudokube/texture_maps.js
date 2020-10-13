@@ -5,7 +5,7 @@ import {
 	TextureLoader
 } from "./three.module.js";
 
-const pickedMap = {'.':"none_picked.png",
+const pickedMap = {'.':"none_unpicked.png",
 					1:"1_picked.png",
 					2:"2_picked.png",
 					3:"3_picked.png",
@@ -37,7 +37,8 @@ var getMaterialArray = function ( num, isPicked ) {
 	if(isPicked){
 		tex = pickedMap[num];
 	}else{
-		tex = unpickedMap[num];
+		tex = pickedMap[num];
+		// tex = unpickedMap[num];
 	}
 	return [
 		    new MeshBasicMaterial( { map: loader.load(tex) } ),

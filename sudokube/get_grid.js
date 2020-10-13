@@ -648,15 +648,37 @@ var convertOneThroughNine = function (key) {
 }
 
 var convertItoA = function (key) {
-    return key.replace("I", "A");
+    switch(key.charAt(1)){
+        case "A":
+            return key.charAt(0) + "I";
+        case "B":
+            return key.charAt(0) + "H";
+        case "C":
+            return key.charAt(0) + "G";
+        case "D":
+            return key.charAt(0) + "F";
+        case "E":
+            return key.charAt(0) + "E";
+        case "F":
+            return key.charAt(0) + "D";
+        case "G":
+            return key.charAt(0) + "C";
+        case "H":
+            return key.charAt(0) + "B";
+        case "I":
+            return key.charAt(0) + "A";
+    }
 }
 
 var swapOneThroughNine = function  (baseObj) {
+    // expects A1, A2 ... A9
+    console.log(baseObj)
     let x = Object.keys(baseObj)
       .reduce((obj, key) => {
         obj[key] = baseObj[convertOneThroughNine(key)];
         return obj;
       }, {});
+      console.log(x)
       return x;
 }
 
@@ -667,6 +689,10 @@ var noConflicts = function (baseObj, compObj) {
             foundMatch = true;
         }
     })
+    if(!foundMatch){
+
+    console.log(baseObj, compObj)
+    }
     return !foundMatch;
 }
 

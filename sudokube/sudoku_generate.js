@@ -10,121 +10,730 @@ let topFullGrid = {}, backFullGrid = {}, frontFullGrid = {}, botFullGrid = {}, l
 let topGrid = [], backGrid = [], frontGrid = [], botGrid = [], leftGrid = [], rightGrid = [];
 let generated = false;
 let generateAttempts = 1;
-while(!generated){
-	console.log(`Generate cube attempt ${generateAttempts}`);
-	generateAttempts += 1;
-	//reset
-	topGridObj = {}, backGridObj = {}, frontGridObj = {}, botGridObj = {}, leftGridObj = {}, rightGridObj = {};
-	topFullGrid = {}, backFullGrid = {}, frontFullGrid = {}, botFullGrid = {}, leftFullGrid = {}, rightFullGrid = {};
-	topGrid = [], backGrid = [], frontGrid = [], botGrid = [], leftGrid = [], rightGrid = [];
+
+topGrid = [
+  [
+    ".",
+    "3",
+    "8",
+    "7",
+    ".",
+    "2",
+    ".",
+    ".",
+    "6"
+  ],
+  [
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    "4",
+    ".",
+    ".",
+    "8"
+  ],
+  [
+    ".",
+    ".",
+    "2",
+    ".",
+    "8",
+    ".",
+    "7",
+    "3",
+    "."
+  ],
+  [
+    "9",
+    ".",
+    "6",
+    ".",
+    "7",
+    ".",
+    ".",
+    "4",
+    "1"
+  ],
+  [
+    "8",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    "5",
+    "."
+  ],
+  [
+    ".",
+    "1",
+    "4",
+    ".",
+    "6",
+    ".",
+    ".",
+    "2",
+    "9"
+  ],
+  [
+    ".",
+    ".",
+    "1",
+    "3",
+    "9",
+    "7",
+    ".",
+    ".",
+    "2"
+  ],
+  [
+    "2",
+    "9",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    "6",
+    "."
+  ],
+  [
+    ".",
+    ".",
+    "5",
+    ".",
+    "2",
+    "1",
+    "9",
+    ".",
+    "."
+  ]
+];
+backGrid = [
+  [
+    ".",
+    ".",
+    ".",
+    ".",
+    "1",
+    ".",
+    "8",
+    "3",
+    "."
+  ],
+  [
+    ".",
+    ".",
+    ".",
+    "6",
+    "4",
+    ".",
+    "2",
+    "1",
+    "9"
+  ],
+  [
+    "3",
+    "2",
+    ".",
+    ".",
+    "8",
+    ".",
+    ".",
+    "6",
+    "."
+  ],
+  [
+    ".",
+    "3",
+    "6",
+    ".",
+    ".",
+    ".",
+    "4",
+    ".",
+    "7"
+  ],
+  [
+    "8",
+    ".",
+    "5",
+    ".",
+    ".",
+    "2",
+    ".",
+    "9",
+    "."
+  ],
+  [
+    ".",
+    ".",
+    ".",
+    "8",
+    ".",
+    ".",
+    "1",
+    ".",
+    "."
+  ],
+  [
+    "5",
+    ".",
+    ".",
+    "3",
+    "6",
+    "8",
+    ".",
+    ".",
+    "1"
+  ],
+  [
+    "4",
+    ".",
+    ".",
+    "1",
+    "2",
+    "5",
+    "3",
+    ".",
+    "."
+  ],
+  [
+    "1",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    "5",
+    ".",
+    "8"
+  ]
+];
+frontGrid = [
+  [
+    "3",
+    ".",
+    ".",
+    "6",
+    "2",
+    "1",
+    "9",
+    "7",
+    "."
+  ],
+  [
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    "."
+  ],
+  [
+    "7",
+    ".",
+    "4",
+    ".",
+    ".",
+    ".",
+    "2",
+    ".",
+    "6"
+  ],
+  [
+    ".",
+    ".",
+    ".",
+    ".",
+    "1",
+    "6",
+    "7",
+    "4",
+    "3"
+  ],
+  [
+    "8",
+    ".",
+    ".",
+    ".",
+    "7",
+    "9",
+    "5",
+    ".",
+    "."
+  ],
+  [
+    "1",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    "9",
+    "2"
+  ],
+  [
+    ".",
+    ".",
+    "7",
+    "1",
+    "8",
+    ".",
+    "4",
+    "3",
+    "."
+  ],
+  [
+    "4",
+    ".",
+    "8",
+    ".",
+    "9",
+    "5",
+    ".",
+    ".",
+    "7"
+  ],
+  [
+    ".",
+    ".",
+    "9",
+    "7",
+    ".",
+    ".",
+    ".",
+    "8",
+    "."
+  ]
+];
+botGrid = [
+  [
+    ".",
+    ".",
+    "9",
+    ".",
+    ".",
+    ".",
+    "1",
+    "8",
+    "5"
+  ],
+  [
+    ".",
+    "8",
+    "7",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    "4"
+  ],
+  [
+    ".",
+    ".",
+    "4",
+    "9",
+    ".",
+    ".",
+    ".",
+    ".",
+    "3"
+  ],
+  [
+    ".",
+    ".",
+    ".",
+    ".",
+    "7",
+    ".",
+    ".",
+    ".",
+    "2"
+  ],
+  [
+    ".",
+    "7",
+    "2",
+    ".",
+    ".",
+    ".",
+    "8",
+    ".",
+    "6"
+  ],
+  [
+    "5",
+    "6",
+    ".",
+    ".",
+    "2",
+    "9",
+    "4",
+    ".",
+    "7"
+  ],
+  [
+    ".",
+    "9",
+    ".",
+    "1",
+    ".",
+    "6",
+    "2",
+    ".",
+    "8"
+  ],
+  [
+    "7",
+    "1",
+    ".",
+    ".",
+    ".",
+    "2",
+    "5",
+    ".",
+    "."
+  ],
+  [
+    ".",
+    "2",
+    "5",
+    "4",
+    ".",
+    ".",
+    "3",
+    ".",
+    "."
+  ]
+];
+leftGrid = [
+  [
+    "5",
+    "6",
+    ".",
+    "9",
+    ".",
+    ".",
+    ".",
+    "2",
+    "3"
+  ],
+  [
+    "9",
+    "2",
+    ".",
+    "1",
+    ".",
+    "4",
+    ".",
+    "8",
+    "6"
+  ],
+  [
+    ".",
+    "3",
+    ".",
+    "2",
+    "5",
+    "6",
+    ".",
+    "9",
+    "."
+  ],
+  [
+    ".",
+    "4",
+    "6",
+    ".",
+    ".",
+    ".",
+    "2",
+    ".",
+    "."
+  ],
+  [
+    ".",
+    ".",
+    ".",
+    ".",
+    "2",
+    ".",
+    ".",
+    ".",
+    "8"
+  ],
+  [
+    ".",
+    ".",
+    ".",
+    "7",
+    ".",
+    "9",
+    ".",
+    ".",
+    "."
+  ],
+  [
+    ".",
+    "9",
+    ".",
+    "6",
+    ".",
+    ".",
+    ".",
+    "7",
+    "5"
+  ],
+  [
+    ".",
+    "5",
+    "2",
+    ".",
+    "7",
+    ".",
+    ".",
+    ".",
+    "4"
+  ],
+  [
+    "8",
+    ".",
+    ".",
+    ".",
+    "9",
+    ".",
+    "6",
+    "1",
+    "."
+  ]
+];
+rightGrid = [
+  [
+    "4",
+    "3",
+    "2",
+    ".",
+    "7",
+    ".",
+    ".",
+    "8",
+    "6"
+  ],
+  [
+    "8",
+    ".",
+    ".",
+    ".",
+    "3",
+    ".",
+    ".",
+    "2",
+    "7"
+  ],
+  [
+    ".",
+    "5",
+    "7",
+    ".",
+    ".",
+    "4",
+    "9",
+    ".",
+    "."
+  ],
+  [
+    ".",
+    ".",
+    ".",
+    ".",
+    "5",
+    "9",
+    ".",
+    ".",
+    "2"
+  ],
+  [
+    "1",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    "7",
+    "8"
+  ],
+  [
+    ".",
+    ".",
+    "4",
+    ".",
+    ".",
+    "6",
+    ".",
+    "5",
+    "."
+  ],
+  [
+    ".",
+    "2",
+    ".",
+    "4",
+    ".",
+    "8",
+    ".",
+    "3",
+    "."
+  ],
+  [
+    ".",
+    "8",
+    "1",
+    ".",
+    "9",
+    "3",
+    "2",
+    "6",
+    "."
+  ],
+  [
+    ".",
+    "4",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    ".",
+    "1"
+  ]
+];
+// while(!generated){
+// 	console.log(`Generate cube attempt ${generateAttempts}`);
+// 	generateAttempts += 1;
+// 	//reset
+// 	topGridObj = {}, backGridObj = {}, frontGridObj = {}, botGridObj = {}, leftGridObj = {}, rightGridObj = {};
+// 	topFullGrid = {}, backFullGrid = {}, frontFullGrid = {}, botFullGrid = {}, leftFullGrid = {}, rightFullGrid = {};
+// 	topGrid = [], backGrid = [], frontGrid = [], botGrid = [], leftGrid = [], rightGrid = [];
 	
-	//top
-	topGridObj = generate("easy", {});
-	topGrid = topGridObj.convertedGrid;
-	topFullGrid = topGridObj.fullGrid;
-	//back
-	let validBack = false;
-	let backCount = 1;
-	while(!validBack){
-		console.log(`Generating back permutation #${backCount}`);
-		backCount += 1;
-		backGridObj = generate("easy", swapOneThroughNine(getKeysStartsWith(topFullGrid, "A")));
-		backGrid = backGridObj.convertedGrid;
-		backFullGrid = backGridObj.fullGrid;
-		validBack = no3x3Errors(backFullGrid["B1"], backFullGrid["C1"], topFullGrid["B9"], topFullGrid["C9"])
-			&& no3x3Errors(backFullGrid["B9"], backFullGrid["C9"], topFullGrid["B1"], topFullGrid["C1"]);
-	}
-	//front
-	let validFront = false;
-	let frontCount = 1;
-	while(!validFront){
-		if(frontCount > MAX_RETRIES_PER_FACE){
-			break;
-		}
-		console.log(`Generating front permutation #${frontCount}`);
-		frontCount += 1;
-		frontGridObj = generate("easy", makeStartWithNormal(getKeysStartsWith(topFullGrid, "I"), "A"));
-		frontGrid = frontGridObj.convertedGrid;
-		frontFullGrid = frontGridObj.fullGrid;
-		// after generating front, only continue if there are no issues in the following:
-		// across the left face (1 col of front to 9 col of back)
-		// across the right face (9 col of front to 1 col of back)
-		// across the bot face (I row of front to I row of back)
-		validFront = noConflicts(getKeysEndsWith(frontFullGrid, "1"), makeEndWith(getKeysEndsWith(backFullGrid, "9"), "1"))
-			&& noConflicts(getKeysEndsWith(frontFullGrid, "9"), makeEndWith(getKeysEndsWith(backFullGrid, "1"), "9"))
-			&& noConflicts(getKeysStartsWith(frontFullGrid, "I"), swapOneThroughNine(getKeysStartsWith(backFullGrid, "I")))
-			&& no3x3Errors(frontFullGrid["B1"], frontFullGrid["C1"], topFullGrid["G1"], topFullGrid["H1"])
-			&& no3x3Errors(frontFullGrid["B9"], frontFullGrid["C9"], topFullGrid["G9"], topFullGrid["H9"]);
-	}
-	if(!validFront){
-		continue;
-	}
+// 	//top
+// 	topGridObj = generate("easy", {});
+// 	topGrid = topGridObj.convertedGrid;
+// 	topFullGrid = topGridObj.fullGrid;
+// 	//back
+// 	let validBack = false;
+// 	let backCount = 1;
+// 	while(!validBack){
+// 		console.log(`Generating back permutation #${backCount}`);
+// 		backCount += 1;
+// 		backGridObj = generate("easy", swapOneThroughNine(getKeysStartsWith(topFullGrid, "A")));
+// 		backGrid = backGridObj.convertedGrid;
+// 		backFullGrid = backGridObj.fullGrid;
+// 		validBack = no3x3Errors(backFullGrid["B1"], backFullGrid["C1"], topFullGrid["B9"], topFullGrid["C9"])
+// 			&& no3x3Errors(backFullGrid["B9"], backFullGrid["C9"], topFullGrid["B1"], topFullGrid["C1"]);
+// 	}
+// 	//front
+// 	let validFront = false;
+// 	let frontCount = 1;
+// 	while(!validFront){
+// 		if(frontCount > MAX_RETRIES_PER_FACE){
+// 			break;
+// 		}
+// 		console.log(`Generating front permutation #${frontCount}`);
+// 		frontCount += 1;
+// 		frontGridObj = generate("easy", makeStartWithNormal(getKeysStartsWith(topFullGrid, "I"), "A"));
+// 		frontGrid = frontGridObj.convertedGrid;
+// 		frontFullGrid = frontGridObj.fullGrid;
+// 		// after generating front, only continue if there are no issues in the following:
+// 		// across the left face (1 col of front to 9 col of back)
+// 		// across the right face (9 col of front to 1 col of back)
+// 		// across the bot face (I row of front to I row of back)
+// 		validFront = noConflicts(getKeysEndsWith(frontFullGrid, "1"), makeEndWith(getKeysEndsWith(backFullGrid, "9"), "1"))
+// 			&& noConflicts(getKeysEndsWith(frontFullGrid, "9"), makeEndWith(getKeysEndsWith(backFullGrid, "1"), "9"))
+// 			&& noConflicts(getKeysStartsWith(frontFullGrid, "I"), swapOneThroughNine(getKeysStartsWith(backFullGrid, "I")))
+// 			&& no3x3Errors(frontFullGrid["B1"], frontFullGrid["C1"], topFullGrid["G1"], topFullGrid["H1"])
+// 			&& no3x3Errors(frontFullGrid["B9"], frontFullGrid["C9"], topFullGrid["G9"], topFullGrid["H9"]);
+// 	}
+// 	if(!validFront){
+// 		continue;
+// 	}
 
-	//bottom - starting to get diceyyy
-	let validBot = false;
-	let botCount = 1;
-	let botTemplate = Object.assign({},
-		makeStartWithNormal(getKeysStartsWith(frontFullGrid, "I"), "A"),
-		swapOneThroughNine(getKeysStartsWith(backFullGrid, "I"))
-	);
-	console.log(botTemplate)
-	while(!validBot){
-		if(botCount > MAX_RETRIES_PER_FACE){
-			break;
-		}
-		console.log(`Generating bot permutation #${botCount}`);
-		botCount += 1;
-		botGridObj = generate("easy", botTemplate);
-		botGrid = botGridObj.convertedGrid;
-		botFullGrid = botGridObj.fullGrid;
-		// after generating bot, only continue if there are no issues in the following:
-		// across the left face (1 col of front to 9 col of back)
-		// across the right face (9 col of front to 1 col of back)
-		validBot = noConflicts(getKeysStartsWith(botFullGrid, "A"), swapOneThroughNine(getKeysStartsWith(topFullGrid, "A")))
-			&& noConflicts(getKeysStartsWith(botFullGrid, "I"), swapOneThroughNine(getKeysStartsWith(topFullGrid, "I")))
-			&& no3x3Errors(botFullGrid["B1"], botFullGrid["C1"], frontFullGrid["G1"], frontFullGrid["H1"])
-			&& no3x3Errors(botFullGrid["B9"], botFullGrid["C9"], frontFullGrid["G9"], frontFullGrid["H9"])
-			&& no3x3Errors(botFullGrid["G1"], botFullGrid["H1"], backFullGrid["G9"], backFullGrid["H9"])
-			&& no3x3Errors(botFullGrid["G9"], botFullGrid["H9"], backFullGrid["G1"], backFullGrid["H1"]);
-	}
-	if(!validBot){
-		continue;
-	}
-	//left - oh boi
-	let leftTemplate = Object.assign({},
-		makeStartWith(getKeysEndsWith(topFullGrid, "1"), "A"),//top
-		makeEndWith(getKeysEndsWith(backFullGrid, "9"), "1"),//back
-		makeEndWith(getKeysEndsWith(frontFullGrid, "1"), "9"),//front
-		swapOneThroughNine(makeStartWith(getKeysEndsWith(botFullGrid, "1"), "I"))//bot
-	);
+// 	//bottom - starting to get diceyyy
+// 	let validBot = false;
+// 	let botCount = 1;
+// 	let botTemplate = Object.assign({},
+// 		makeStartWithNormal(getKeysStartsWith(frontFullGrid, "I"), "A"),
+// 		swapOneThroughNine(getKeysStartsWith(backFullGrid, "I"))
+// 	);
+// 	console.log(botTemplate)
+// 	while(!validBot){
+// 		if(botCount > MAX_RETRIES_PER_FACE){
+// 			break;
+// 		}
+// 		console.log(`Generating bot permutation #${botCount}`);
+// 		botCount += 1;
+// 		botGridObj = generate("easy", botTemplate);
+// 		botGrid = botGridObj.convertedGrid;
+// 		botFullGrid = botGridObj.fullGrid;
+// 		// after generating bot, only continue if there are no issues in the following:
+// 		// across the left face (1 col of bot to inverted 1 col of top)
+// 		// across the right face (9 col of front to 1 col of back)
+// 		console.log(getKeysEndsWith(topFullGrid, "1"))
+// 		console.log(swapItoA(getKeysEndsWith(topFullGrid, "1")))
+// 		validBot = noConflicts(getKeysEndsWith(botFullGrid, "1"), swapItoA(getKeysEndsWith(topFullGrid, "1")))
+// 			&& noConflicts(getKeysEndsWith(botFullGrid, "9"), swapItoA(getKeysEndsWith(topFullGrid, "9")))
+// 			&& no3x3Errors(botFullGrid["B1"], botFullGrid["C1"], frontFullGrid["G1"], frontFullGrid["H1"])
+// 			&& no3x3Errors(botFullGrid["B9"], botFullGrid["C9"], frontFullGrid["G9"], frontFullGrid["H9"])
+// 			&& no3x3Errors(botFullGrid["G1"], botFullGrid["H1"], backFullGrid["G9"], backFullGrid["H9"])
+// 			&& no3x3Errors(botFullGrid["G9"], botFullGrid["H9"], backFullGrid["G1"], backFullGrid["H1"]);
+// 	}
+// 	if(!validBot){
+// 		continue;
+// 	}
+// 	//left - oh boi
+// 	let leftTemplate = Object.assign({},
+// 		makeStartWith(getKeysEndsWith(topFullGrid, "1"), "A"),//top
+// 		makeEndWith(getKeysEndsWith(backFullGrid, "9"), "1"),//back
+// 		makeEndWith(getKeysEndsWith(frontFullGrid, "1"), "9"),//front
+// 		swapOneThroughNine(makeStartWith(getKeysEndsWith(botFullGrid, "1"), "I"))//bot
+// 	);
 
-	console.log(topFullGrid)
-	console.log(frontFullGrid)
-	console.log(backFullGrid)
-	console.log(botFullGrid)
-	console.log(makeStartWith(getKeysEndsWith(topFullGrid, "1"), "A"))
-	console.log(makeEndWith(getKeysEndsWith(backFullGrid, "9"), "1"))
-	console.log(makeEndWith(getKeysEndsWith(frontFullGrid, "1"), "9"))
-	console.log(swapOneThroughNine(makeStartWith(getKeysEndsWith(botFullGrid, "1"), "I")))
-	console.log(leftTemplate);
-	leftGridObj = generate("easy", leftTemplate);
-	leftGrid = leftGridObj.convertedGrid;
-	leftFullGrid = leftGridObj.fullGrid;
-	//right - oh boi pt 2 electric boogaloo
-	let rightTemplate = Object.assign({},
-		swapOneThroughNine(makeStartWith(getKeysEndsWith(topFullGrid, "9"), "A")),//top
-		makeEndWith(getKeysEndsWith(backFullGrid, "1"), "9"),//back
-		makeEndWith(getKeysEndsWith(frontFullGrid, "9"), "1"),//front
-		makeStartWith(getKeysEndsWith(botFullGrid, "9"), "I")//bot
-	);
-	console.log(rightTemplate);
-	rightGridObj = generate("easy", rightTemplate);
-	rightGrid = rightGridObj.convertedGrid;
-	rightFullGrid = rightGridObj.fullGrid;
+// 	console.log(topFullGrid)
+// 	console.log(frontFullGrid)
+// 	console.log(backFullGrid)
+// 	console.log(botFullGrid)
+// 	console.log(makeStartWith(getKeysEndsWith(topFullGrid, "1"), "A"))
+// 	console.log(makeEndWith(getKeysEndsWith(backFullGrid, "9"), "1"))
+// 	console.log(makeEndWith(getKeysEndsWith(frontFullGrid, "1"), "9"))
+// 	console.log(swapOneThroughNine(makeStartWith(getKeysEndsWith(botFullGrid, "1"), "I")))
+// 	console.log(leftTemplate);
+// 	leftGridObj = generate("easy", leftTemplate);
+// 	leftGrid = leftGridObj.convertedGrid;
+// 	leftFullGrid = leftGridObj.fullGrid;
+// 	//right - oh boi pt 2 electric boogaloo
+// 	let rightTemplate = Object.assign({},
+// 		swapOneThroughNine(makeStartWith(getKeysEndsWith(topFullGrid, "9"), "A")),//top
+// 		makeEndWith(getKeysEndsWith(backFullGrid, "1"), "9"),//back
+// 		makeEndWith(getKeysEndsWith(frontFullGrid, "9"), "1"),//front
+// 		makeStartWith(getKeysEndsWith(botFullGrid, "9"), "I")//bot
+// 	);
+// 	console.log(rightTemplate);
+// 	rightGridObj = generate("easy", rightTemplate);
+// 	rightGrid = rightGridObj.convertedGrid;
+// 	rightFullGrid = rightGridObj.fullGrid;
 
-	// we did it reddit!
-	generated = true;
-}
+// 	// we did it reddit!
+// 	generated = true;
+// }
 
 console.log("generated the following grids!")
 console.log("top")
@@ -174,8 +783,8 @@ function init() {
 	scene.add(cubes)
 
 
-	let small_offset = 25;
-	let extra_offset = 6;
+	let small_offset = 27;
+	let extra_offset = 7;
 	let cube_size = 20;
 
 	for(var depth=1; depth <= 9; depth++){
