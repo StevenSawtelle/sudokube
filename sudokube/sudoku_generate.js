@@ -1,6 +1,6 @@
 import * as THREE from './three.module.js';
 import { OrbitControls } from './OrbitControls.js';
-import { getMaterialArray } from './texture_maps.js';
+import { getMaterialArray, getCenterMaterialArray } from './texture_maps.js';
 import {generate, generateGivenPartialSeed, getKeysStartsWith, getKeysEndsWith, swapOneThroughNine, swapItoA, makeStartWith, makeStartWithNormal, makeEndWith, noConflicts, no3x3Errors} from './get_grid.js';
 
 const MAX_RETRIES_PER_FACE = 10;
@@ -759,7 +759,7 @@ function init() {
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0xcccccc );
+	scene.background = new THREE.Color( 0xa8d0e6 );
 	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
 	camera.position.set( 400, 200, 0 );
 	// camera.position.set( 15, 15, 15 );
@@ -771,8 +771,8 @@ function init() {
 	// controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 	// controls.dampingFactor = 0.05;
 	// controls.screenSpacePanning = false;
-	// controls.minDistance = 100;
-	// controls.maxDistance = 500;
+	controls.minDistance = 300;
+	controls.maxDistance = 850;
 	// controls.maxPolarAngle = Math.PI ;
 	// world
 	var off_x = -90;
@@ -783,29 +783,43 @@ function init() {
 	scene.add(cubes)
 
 
-	let small_offset = 27;
+	// let small_offset = 20;
 	let extra_offset = 7;
 	let cube_size = 20;
+
+	// first add center cube so users cant see through
+	let inner_cube_width = (cube_size * 3 * 3) + (extra_offset * 2) - (cube_size * 2);
+
+	let centerMaterialArray = getCenterMaterialArray();
+	var geometry = new THREE.CubeGeometry( inner_cube_width,inner_cube_width,inner_cube_width );
+	var centerCube = new THREE.Mesh( geometry, centerMaterialArray );
+	centerCube.position.x = off_x + cube_size*4 + extra_offset;
+	centerCube.position.y = off_y + cube_size*4 + extra_offset;
+  centerCube.position.z = off_z + cube_size*4 + extra_offset;
+  centerCube.isCenterCube = true;
+	cubes.add(centerCube);
 
 	for(var depth=1; depth <= 9; depth++){
 		for ( var i = 1; i <= 9; i ++ ) {
 			for(var j = 1; j <= 9; j++){
 
 				let curVal = getVal(i,j,depth);
-				let materialArray = getMaterialArray(curVal, false);
+        let isStarterVal = curVal != ".";
+				let materialArray = getMaterialArray(curVal, "given");
 				var geometry = new THREE.CubeGeometry( cube_size,cube_size,cube_size );
-				var cube = new THREE.Mesh( geometry, materialArray );
-				cube.row = i;
+        var cube = new THREE.Mesh( geometry, materialArray );
+        cube.row = i;
 				cube.col = j;
 				cube.depth = depth;
-				cube.val = curVal;
+        cube.val = curVal;
+        cube.isStarterVal = isStarterVal;
 
 				cube.position.x = off_x;
 				cube.position.y = off_y;
 				cube.position.z = off_z;
 				// cube.material.color.setHex( 0xffffff );
 
-				off_x += small_offset;
+				off_x += cube_size;
 				if(j % 3 == 0){
 					off_x += extra_offset;
 				}
@@ -826,16 +840,20 @@ function init() {
 				off_z += extra_offset;
 			}
 			off_x = -90;
-			off_z += small_offset;
+			off_z += cube_size;
 		}
 		off_x = -90;
 		off_z = -90;
-		off_y += small_offset + extra_offset;
+		off_y += cube_size;
+		if(depth % 3 == 0){
+			off_y += extra_offset;
+		}
 	}
 	window.addEventListener( 'resize', onWindowResize, false );
-	window.addEventListener( 'mousemove', onMouseMove, false );
+	// window.addEventListener( 'mousemove', onMouseMove, false );
 	window.addEventListener( 'click', onClick, false );
-	window.addEventListener( 'keypress', onKeyDown, false );
+	window.addEventListener( 'touchend', onTouchEnd, false );
+  window.addEventListener( 'keyup', onKeyDown, true );
 
 	// window.requestAnimationFrame(render);
 }
@@ -870,6 +888,7 @@ function getVal(row, col, depth){
 }
 
 function onKeyDown(event){
+  console.log(event.keyCode)
 	if(event.keyCode >= 49 && event.keyCode <= 57){
 		if(event.keyCode == 49){//1
 			clickedObject.val = 1;
@@ -890,7 +909,7 @@ function onKeyDown(event){
 		}else if(event.keyCode == 57){//9
 			clickedObject.val = 9;
 		}
-		let materialArray = getMaterialArray(clickedObject.val, false);
+		let materialArray = getMaterialArray(clickedObject.val, "picked");
 		clickedObject.material = materialArray;
 	}
 }
@@ -901,13 +920,36 @@ function onWindowResize() {
 	renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-var selectedObject = null;
 var clickedObject = null;
-function onClick(){
-	if(selectedObject){
-		clickedObject = selectedObject;
-		console.log(selectedObject.row + ", " + selectedObject.col + ", " + selectedObject.depth);
+
+function onClick(event){
+  console.log(event)
+  event.preventDefault();
+  //unselect recent if applicable
+  if(clickedObject){
+  	let materialArray = getMaterialArray(clickedObject.val, "unpicked");
+    clickedObject.material = materialArray;
+  }
+  // get clicked cube (TODO fix algo of getIntersects)
+	var intersects = getIntersects( event.layerX, event.layerY );
+	if ( intersects.length > 0 ) {
+		var res = intersects.filter( function ( res ) {
+			return res && res.object;
+		} )[ 0 ];
+		if ( res && res.object && !res.object.isStarterVal && !res.object.isCenterCube) {
+			clickedObject = res.object;
+		}
+  }
+  // set material if it was gotten
+	if(clickedObject){
+  	let materialArray = getMaterialArray(clickedObject.val, "picked");
+  	clickedObject.material = materialArray;
+		console.log(clickedObject.row + ", " + clickedObject.col + ", " + clickedObject.depth);
 	}
+}
+
+function onTouchEnd(event) {
+  console.log(event)
 }
 
 function animate() {
@@ -915,26 +957,26 @@ function animate() {
 	requestAnimationFrame( animate );
 }
 
-function onMouseMove( event ) {
-	event.preventDefault();
-	// if ( selectedObject ) {
-	// 	let materialArray = getMaterialArray(selectedObject.val, false);
-	// 	selectedObject.material = materialArray;
-	// 	// selectedObject.material.color.set( '#fff' );
-	// 	selectedObject = null;
-	// }
-	var intersects = getIntersects( event.layerX, event.layerY );
-	if ( intersects.length > 0 ) {
-		var res = intersects.filter( function ( res ) {
-			return res && res.object;
-		} )[ 0 ];
-		if ( res && res.object ) {
-			selectedObject = res.object;
-		// let materialArray = getMaterialArray(selectedObject.val, true);
-		// selectedObject.material = materialArray;
-		}
-	}
-}
+// function onMouseMove( event ) {
+// 	event.preventDefault();
+// 	// if ( selectedObject ) {
+// 	// 	let materialArray = getMaterialArray(selectedObject.val, false);
+// 	// 	selectedObject.material = materialArray;
+// 	// 	// selectedObject.material.color.set( '#fff' );
+// 	// 	selectedObject = null;
+// 	// }
+// 	var intersects = getIntersects( event.layerX, event.layerY );
+// 	if ( intersects.length > 0 ) {
+// 		var res = intersects.filter( function ( res ) {
+// 			return res && res.object;
+// 		} )[ 0 ];
+// 		if ( res && res.object ) {
+// 			selectedObject = res.object;
+// 		// let materialArray = getMaterialArray(selectedObject.val, true);
+// 		// selectedObject.material = materialArray;
+// 		}
+// 	}
+// }
 
 var raycaster = new THREE.Raycaster();
 var mouseVector = new THREE.Vector3();
